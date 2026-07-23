@@ -22,7 +22,6 @@ const pool = new Pool({
 app.get('/', async (req, res) => {
   try {
     // Example: Fetching dynamic content from PostgreSQL
-    res.send(pool.options.connectionString);
     const { rows } = await pool.query('SELECT* FROM contracts');
    // res.send(`<h1>Dynamic Site Active!</h1><p>DB Time: ${rows[0].now}</p>`);
   } catch (err) {
