@@ -1,9 +1,23 @@
 const express = require('express');
 const { Pool } = require('pg');
-require('dotenv').config();
+
+// ONLY run dotenv if we are NOT on Render (production)
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 const app = express();
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+// Render automatically passes the DATABASE_URL environment variable here
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false // REQUIRED for secure cloud DB connections
+  }
+});
+
+// ... your routes and app.listen logic below
+
 
 app.get('/', async (req, res) => {
   try {
